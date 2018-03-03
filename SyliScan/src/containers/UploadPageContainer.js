@@ -57,48 +57,55 @@ class UploadPageContainer extends React.Component {
         // set loading
         this.setState({ loading: true });
 
+        // shhhhh
+        const apiKey = 'AIzaSyD5QSqxF8Oj8vAZA9MqsHAx0DV1v7GD4t0'
+
         // ocr endpoint
-        const url = 'https://api.ocr.space/parse/image';
-
-        // create form
-        const form = new FormData();
-
-        // oh god this is hacky
-        form.append('base64image', `data:image/png;base64,${base64}`);
+        const url = `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`;
 
         // execute!
         fetch(url, {
             method: 'post',
-            body: form,
-            headers: {
-                // shhhhhh
-                'apikey': '1514b99e7688957',
-            }
+            body: JSON.stringify({
+                requests: [
+                    {
+                        image: {
+                            content: base64,
+                        },
+                        features: [
+                            {
+                                type: 'DOCUMENT_TEXT_DETECTION'
+                            }
+                        ]
+                    }
+                ]
+            })
         })
             .then(res => res.json())
             .then(json => {
-                this.props.updateText(json.ParsedResults[0].ParsedText);
+                console.log(json);
+                const data = json.responses[0].fullTextAnnotation.text.split('\n');
+                this.props.updateText(data);
                 this.setState({ loading: false });
                 this.props.navigation.navigate('SettingsPage');
+
             })
             .catch(error => console.log(error))
     }
 
     render() {
         return (
-            <UploadPage 
-                {...this.state} 
-                takeImage={this.takeImage} 
-                pickImage={this.pickImage} 
+            <UploadPage
+                {...this.state}
+                takeImage={this.takeImage}
+                pickImage={this.pickImage}
                 ocr={this.ocr}
             />
         )
     }
 }
 
-const mapStateToProps = (state) => ({
-    count: state.count,
-})
+const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = (dispatch) => ({
     updateURI: (uri) => dispatch(updateURI(uri)),
