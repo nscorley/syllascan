@@ -1,0 +1,39 @@
+{
+  "name": "SyliScan",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "jest-expo": "25.0.0",
+    "react-native-debugger-open": "^0.3.17",
+    "react-native-scripts": "1.11.1",
+    "react-test-renderer": "16.2.0",
+    "redux-devtools-extension": "^2.13.2"
+  },
+  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "scripts": {
+    "postinstall": "rndebugger-open",
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
+    "test": "node node_modules/jest/bin/jest.js"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "dateformat": "^3.0.3",
+    "expo": "^25.0.0",
+    "react": "16.2.0",
+    "react-native": "0.52.0",
+    "react-native-activity-indicator": "^0.0.4",
+    "react-native-collapsible": "^0.10.0",
+    "react-native-elements": "beta",
+    "react-native-modal-datetime-picker": "^4.13.0",
+    "react-native-progress": "^3.4.0",
+    "react-native-vector-icons": "^4.5.0",
+    "react-navigation": "^1.0.3",
+    "react-redux": "^5.0.6",
+    "redux-thunk": "^2.2.0"
+  }
+}
