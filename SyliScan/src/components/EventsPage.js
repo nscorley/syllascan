@@ -18,6 +18,8 @@ export default class EventsPage extends React.Component {
             icon = { name: 'clipboard-notes', type: 'foundation', style: styles.icon }
         } else if (section.type == 'homework') {
             icon = { name: 'pencil', type: 'foundation', style: styles.icon }
+        } else if (section.type == 'paper') {
+            icon = { name: 'ios-paper', type: 'ionicons', style: styles.icon }
         } else {
             icon = { name: 'person', style: styles.icon }
         }

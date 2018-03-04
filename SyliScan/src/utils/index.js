@@ -3,12 +3,12 @@
  * @param {string} line 
  */
 export const containsDate = (line) => {
-	if (parseDate(string) == 0) {
-		return false;
-	}
-	else {
-		return true;
-	}
+    if (parseDate(string) == 0) {
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 /**
@@ -24,12 +24,12 @@ export const keyWordAnalysis = async (line) => {
     const url = 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/keyPhrases';
 
     let keyWords = [];
-   
+
     // execute!
     await fetch(url, {
         method: 'post',
         body: JSON.stringify(
-             {
+            {
                 "documents": [
                     {
                         "language": "en",
@@ -50,7 +50,7 @@ export const keyWordAnalysis = async (line) => {
             keyWords = json.documents[0].keyPhrases;
         })
         .catch(error => console.log(error))
-    
+
     return keyWords;
 }
 
@@ -59,7 +59,7 @@ export const keyWordAnalysis = async (line) => {
  * @param {string} keyWord
  */
 export const isRelevantKeyWord = (keyWord) => {
-    temp = keyWord.match(/(uiz|.ssignment|.ssay|test|Test|.idterm|.xam|final|Final|.eadline|due|Due)/);
+    temp = keyWord.match(/(.uiz|.ssignment|.ssay|.aper|test|Test|.idterm|.xam|final|Final|.eadline|due|Due|homework)/i);
     if (temp != null) {
         return true;
     }
@@ -74,7 +74,6 @@ export const isRelevantKeyWord = (keyWord) => {
  * @param {string} keyWord 
  */
 export const getKeyWordType = (keyWord) => {
-
 }
 
 /**
@@ -82,29 +81,29 @@ export const getKeyWordType = (keyWord) => {
  * @param {string} line 
  */
 export const extractDateFromLine = (line) => {
-    
+
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-	var date = new Date();
+    var date = new Date();
 
     temp = string.match(/(January|February|March|April|May|June|July|August|September|October|November|December|Jan\.|Feb\.|Mar\.|Apr\.|Aug\.Sept\.Oct\.|Nov\.|Dec\.]) (\d+)/);
-	if (temp != null) {
-		local = string.match(/(\d+) (pm|PM|AM|am)/);
+    if (temp != null) {
+        local = string.match(/(\d+) (pm|PM|AM|am)/);
 
         date.setMonth(months.indexOf(temp[1].substring(0, 3)));
-		date.setDate((parseInt(temp[2])-1).toString());
-		if (local != null) {
-			date.setHour
-		}
+        date.setDate((parseInt(temp[2]) - 1).toString());
+        if (local != null) {
+            date.setHour
+        }
 
-	}
+    }
     else if (temp == null) {
         return 0; //used by containsDate() to determine which text lines have no dates
     }
     else if (temp = string.match(/(\d+)\/(\d+)/) != -1) {
-		date.setMonth(parseInt(temp[1])-1).toString();
-		date.setDate(temp[2]);
+        date.setMonth(parseInt(temp[1]) - 1).toString();
+        date.setDate(temp[2]);
 
-	}
-	return date;
+    }
+    return date;
 }
