@@ -23,19 +23,30 @@ class SettingsPageContainer extends React.Component {
         parseHomeworks: true,
         className: '',
         classTime: null,
+        timePickerVisible: false,
     }
 
+
+    // toggles
     handleToggleParseExams = () => this.setState({ parseExams: !this.state.parseExams })
 
     handleToggleParsePapers = () => this.setState({ parsePapers: !this.state.parsePapers })
 
     handleToggleParseHomeworks = () => this.setState({ parseHomeworks: !this.state.parseHomeworks })
 
+    // name
     handleChangeClassName = (name) => this.setState({ className: name })
 
-    handleChangeClassTime = (time) => this.setState({ classTime: time })
-
-    parseData = () => {
+    // time
+    hideTimePicker = () => this.setState({ timePickerVisible: false })
+    showTimePicker = () => this.setState({ timePickerVisible: true })
+    handleTimePicked = (time) => {
+        console.log('Good Shit.')
+        console.log(time);
+        this.hideTimePicker();
+    }
+    
+    parseData = async () => {
         const data = this.props.image.text;
 
         // keep only the lines with months
@@ -44,23 +55,25 @@ class SettingsPageContainer extends React.Component {
         // send to Microsoft API
         for (line of data) {
             // use MS API to find most important key words
-            const keyWords = keyWordAnalysis(data[1]);
+             const keyWords = await keyWordAnalysis(data[1]);
 
             console.log(keyWords);
 
             // find the relevant key words
             keyWords.filter(word => isRelevantKeyWord(word));
 
-            console.log(relevantKeyWords);
+            console.log(keyWords);
 
             // capture the event's date
             const eventDate = extractDateFromLine(line);
+
+            console.log(eventDate);
 
             // set the time to the user entered class time
             eventDate.setTime(this.state.classTime);
 
             // set the end
-            const end = Date(eventDate);
+            const end = new Date(eventDate.toString());
             end.setTime(end.getTime() + 1 * 60 * 60 * 1000);
 
             // we pick the first accepted keyword
@@ -75,11 +88,7 @@ class SettingsPageContainer extends React.Component {
                 startDate: eventDate,
                 endDate: end,
             }
-
-
         }
-
-        return;
 
         // navigate to next page after all is said and done
         this.props.navigation.navigate('EventsPage');
@@ -102,8 +111,10 @@ class SettingsPageContainer extends React.Component {
                 handleToggleParsePapers={this.handleToggleParsePapers}
                 handleToggleParseHomeworks={this.handleToggleParseHomeworks}
                 handleChangeClassName={this.handleChangeClassName}
-                handleChangeClassTime={this.handleChangeClassTime}
                 parseData={this.parseData}
+                handleTimePicked={this.handleTimePicked}
+                hideTimePicker={this.hideTimePicker}
+                showTimePicker={this.showTimePicker}
                 {...this.state}
             />
         )
