@@ -59,8 +59,7 @@ export const keyWordAnalysis = async (line) => {
  * @param {string} keyWord
  */
 export const isRelevantKeyWord = (keyWord) => {
-    temp = keyWord.match(/(.uiz|.ssignment|.ssay|.aper|test|Test|.idterm|.xam|final|Final|.eadline|due|Due|homework)/i);
-    
+    temp = keyWord.match(/(quiz|assignment|essay|test|test|midterm|exam|final|deadline|due)/i);
     if (temp != null) {
         return true;
     }
@@ -80,7 +79,7 @@ export const getKeyWordType = (keyWord) => {
         return "Paper";
     }
     temp = keyWord.match(/test|exam*|midterm|final/i);
-    if (temp!= null) {
+    if (temp != null) {
         return "Test";
     }
     temp = keyWord.match(/homework|assignment|/i);
@@ -109,6 +108,10 @@ export const extractDateFromLine = (line) => {
         if (local != null) {
             date.setHour
         }
+        date.setDate((parseInt(temp[2]).toString()));
+        if (local != null) {
+            date.setHour
+        }
 
     }
     else if (temp == null) {
@@ -117,6 +120,9 @@ export const extractDateFromLine = (line) => {
     else if (temp = line.match(/(\d+)\/(\d+)/) != -1) {
         date.setMonth(parseInt(temp[1]) - 1).toString();
         date.setDate(temp[2]);
+    } else if (temp = string.match(/(\d+)\/(\d+)/) != -1) {
+        date.setMonth(((parseInt(temp[1]) - 1).toString()));
+        date.setDate((parseInt(temp[2]).toString()));
 
     }
     return date;
