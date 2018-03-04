@@ -74,6 +74,19 @@ export const isRelevantKeyWord = (keyWord) => {
  * @param {string} keyWord 
  */
 export const getKeyWordType = (keyWord) => {
+    temp = keyWord.match(/(paper|essay)/i);
+    if (temp != null) {
+        return "Paper";
+    }
+    temp = keyWord.match(/test|exam*|midterm|final)/i);
+    if (temp!= null) {
+        return "Test";
+    }
+    temp = keyWord.match(/homework|assignment|/i);
+    if (temp != null) {
+        return "Homework";
+    }
+    return "other";
 }
 
 /**
