@@ -13,6 +13,7 @@ class EventsPageContainer extends React.Component {
     state = {
         datePickerVisible: false,
         activeID: null,
+        loading: false,
     }
 
     handleAddAnother = () => {
@@ -55,6 +56,8 @@ class EventsPageContainer extends React.Component {
         // get permission to access the calendar
         await Permissions.askAsync('calendar');
 
+        this.setState({ loading: true });
+
         // make events
         Calendar.getCalendarsAsync().then((result) => {
             const calendar = result.filter(c => c.source.name == 'Default');
@@ -67,15 +70,17 @@ class EventsPageContainer extends React.Component {
     createEvents = async (calendar) => {
         const events = this.props.events;
 
-        console.log(events);
-        return;
+        for (e of events) {
 
-        for (event of events) {
-            await Calendar.createEventAsync(calendar.id, event).then((id) => {
-                console.log("Created Event. Event ID: " + id);
-            })
+            const event = e.event;
+            
+            // await Calendar.createEventAsync(calendar.id, {...event, allDay: true}).then((id) => {
+            //     console.log("Created Event. Event ID: " + id);
+            // })
         }
 
+        this.setState({ loading: false });
+        this.props.navigation.navigate('SuccessPage');
     }
 
     render() {
@@ -91,6 +96,7 @@ class EventsPageContainer extends React.Component {
                 hideDatePicker={this.hideDatePicker}
                 handleDatePicked={this.handleDatePicked}
                 handleAddAnother={this.handleAddAnother}
+                loading={this.state.loading}
             />
         )
     }

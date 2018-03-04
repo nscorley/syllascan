@@ -14,12 +14,12 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 export default class EventsPage extends React.Component {
     renderHeader = (section, _, isActive) => {
         let icon;
-        if (section.type == 'test') {
+        if (section.type.toUpperCase() == 'TEST') {
             icon = { name: 'clipboard-notes', type: 'foundation', style: styles.icon }
-        } else if (section.type == 'homework') {
+        } else if (section.type.toUpperCase() == 'HOMEWORK') {
             icon = { name: 'pencil', type: 'foundation', style: styles.icon }
-        } else if (section.type == 'paper') {
-            icon = { name: 'ios-paper', type: 'ionicons', style: styles.icon }
+        } else if (section.type.toUpperCase() == 'PAPER') {
+            icon = { name: 'text', type: 'entypo', style: styles.icon }
         } else {
             icon = { name: 'person', style: styles.icon }
         }
@@ -84,9 +84,12 @@ export default class EventsPage extends React.Component {
     }
 
     render() {
-        const { handleSchedule, events, datePickerVisible, handleDatePicked, hideDatePicker, handleAddAnother } = this.props;
+        const { handleSchedule, events, datePickerVisible, handleDatePicked, hideDatePicker, handleAddAnother, loading } = this.props;
         return (
             <ScrollView style={styles.wrapper}>
+                <Loader
+                    loading={loading}
+                />
                 <DateTimePicker
                     isVisible={datePickerVisible}
                     onConfirm={handleDatePicked}
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
     inputContainer: {
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: DARK_BLUE,
+        borderColor: '#9FA8DA',
         height: 40,
         width: SCREEN_WIDTH - 50,
         marginVertical: 3,
@@ -174,7 +177,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         borderTopWidth: 0.75,
-        borderColor: DARK_BLUE,
+        borderColor: '#9FA8DA',
         padding: 10,
         width: SCREEN_WIDTH - 50,
         justifyContent: 'center'

@@ -11,11 +11,6 @@ import {
 }
     from '../utils';
 
-// TODO: toggle between event and reminder?
-// TODO: adjust "level" of parsing
-// TODO: provide identifying name of class
-// TODO: maybe reminder options?
-
 class SettingsPageContainer extends React.Component {
     static navigationOptions = {
         title: 'SETTINGS',
@@ -24,7 +19,7 @@ class SettingsPageContainer extends React.Component {
         parseExams: true,
         parsePapers: true,
         parseHomeworks: true,
-        className: 'Physics',
+        className: '',
         classTime: null,
         timePickerVisible: false,
         loading: false,
@@ -86,6 +81,10 @@ class SettingsPageContainer extends React.Component {
             // get the key word 'type' i.e. 'exam', 'homework', 'essay', etc.
             const eventType = getKeyWordType(chosenKeyWord);
 
+            if(eventType.toUpperCase() == 'TEST' && !this.state.parseExams) continue;
+            if(eventType.toUpperCase() == 'HOMEWORK' && !this.state.parseHomeworks) continue;
+            if (eventType.toUpperCase() == 'PAPER' && !this.state.parsePapers) continue;
+
             const event = {
                 title: `${this.state.className} ${chosenKeyWord}`,
                 notes: '',
@@ -103,12 +102,19 @@ class SettingsPageContainer extends React.Component {
     }
 
     addNewEvent = (newEvent, newType) => {
-        const max = Math.max.apply(Math, this.props.events.map((e) => e.id)) + 1;
+        let max;
+        if(this.props.events.length > 0) {
+            max = Math.max.apply(Math, this.props.events.map((e) => e.id)) + 1;
+        } else {
+            max = 0;
+        }
+
         const event = {
             id: max,
             event: newEvent,
             type: newType,
         }
+        
         this.props.dispatch(addEvent(event, max));
     }
 

@@ -6,6 +6,7 @@ import HomeContainer from '../containers/HomeContainer';
 import SettingsPageContainer from '../containers/SettingsPageContainer';
 import UploadPageContainer from '../containers/UploadPageContainer';
 import EventsPageContainer from '../containers/EventsPageContainer';
+import Success from '../components/Success';
 
 const Routes = {
     HomePage: {
@@ -19,6 +20,9 @@ const Routes = {
     },
     EventsPage: {
         screen: EventsPageContainer,
+    },
+    SuccessPage: {
+        screen: Success,
     }
 
 }
