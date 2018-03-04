@@ -3,7 +3,12 @@
  * @param {string} line 
  */
 export const containsDate = (line) => {
-    true;
+	if (parseDate(string) == 0) {
+		return false;
+	}
+	else {
+		return true;
+	}
 }
 
 /**
@@ -71,5 +76,29 @@ export const getKeyWordType = (keyWord) => {
  * @param {string} line 
  */
 export const extractDateFromLine = (line) => {
-    return new Date();
+    
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+	var date = new Date();
+
+    temp = string.match(/(January|February|March|April|May|June|July|August|September|October|November|December|Jan\.|Feb\.|Mar\.|Apr\.|Aug\.Sept\.Oct\.|Nov\.|Dec\.]) (\d+)/);
+	if (temp != null) {
+		local = string.match(/(\d+) (pm|PM|AM|am)/);
+
+        date.setMonth(months.indexOf(temp[1].substring(0, 3)));
+		date.setDate((parseInt(temp[2])-1).toString());
+		if (local != null) {
+			date.setHour
+		}
+
+	}
+    else if (temp == null) {
+        return 0; //used by containsDate() to determine which text lines have no dates
+    }
+    else if (temp = string.match(/(\d+)\/(\d+)/) != -1) {
+		date.setMonth(parseInt(temp[1])-1).toString();
+		date.setDate(temp[2]);
+
+	}
+	return date;
 }
