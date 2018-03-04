@@ -83,7 +83,6 @@ class UploadPageContainer extends React.Component {
         })
             .then(res => res.json())
             .then(json => {
-                console.log(json);
                 const data = json.responses[0].fullTextAnnotation.text.split('\n');
                 this.props.updateText(data);
                 this.setState({ loading: false });

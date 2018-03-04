@@ -2,6 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SettingsPage from '../components/SettingsPage';
 import { addEvent } from '../actions/updateEvents';
+import {
+    containsDate,
+    keyWordAnalysis,
+    isRelevantKeyWord,
+    extractDateFromLine,
+    getKeyWordType
+}
+    from '../utils';
 
 // TODO: toggle between event and reminder?
 // TODO: adjust "level" of parsing
@@ -15,22 +23,74 @@ class SettingsPageContainer extends React.Component {
         parseHomeworks: true,
         className: '',
         classTime: null,
+        timePickerVisible: false,
     }
 
+
+    // toggles
     handleToggleParseExams = () => this.setState({ parseExams: !this.state.parseExams })
 
     handleToggleParsePapers = () => this.setState({ parsePapers: !this.state.parsePapers })
 
     handleToggleParseHomeworks = () => this.setState({ parseHomeworks: !this.state.parseHomeworks })
 
+    // name
     handleChangeClassName = (name) => this.setState({ className: name })
 
-    handleChangeClassTime = (time) => this.setState({ classTime: time })
+    // time
+    hideTimePicker = () => this.setState({ timePickerVisible: false })
+    showTimePicker = () => this.setState({ timePickerVisible: true })
+    handleTimePicked = (time) => {
+        console.log('Good Shit.')
+        console.log(time);
+        this.hideTimePicker();
+    }
+    
+    parseData = async () => {
+        const data = this.props.image.text;
 
-    parseData = () => {
-        console.log('Parsing data...');
-        const data = this.props.image;
-        console.log(data);
+        // keep only the lines with months
+        data.filter(line => containsDate(line));
+
+        // send to Microsoft API
+        for (line of data) {
+            // use MS API to find most important key words
+             const keyWords = await keyWordAnalysis(data[1]);
+
+            console.log(keyWords);
+
+            // find the relevant key words
+            keyWords.filter(word => isRelevantKeyWord(word));
+
+            console.log(keyWords);
+
+            // capture the event's date
+            const eventDate = extractDateFromLine(line);
+
+            console.log(eventDate);
+
+            // set the time to the user entered class time
+            eventDate.setTime(this.state.classTime);
+
+            // set the end
+            const end = new Date(eventDate.toString());
+            end.setTime(end.getTime() + 1 * 60 * 60 * 1000);
+
+            // we pick the first accepted keyword
+            const chosenKeyWord = keyWords[0];
+
+            // get the key word 'type' i.e. 'exam', 'homework', 'essay', etc.
+            const eventType = getKeyWordType(chosenKeyWord);
+
+            const event = {
+                title: `${this.state.className} {chosenKeyWod}`,
+                notes: '',
+                startDate: eventDate,
+                endDate: end,
+            }
+        }
+
+        // navigate to next page after all is said and done
         this.props.navigation.navigate('EventsPage');
     }
 
@@ -51,8 +111,10 @@ class SettingsPageContainer extends React.Component {
                 handleToggleParsePapers={this.handleToggleParsePapers}
                 handleToggleParseHomeworks={this.handleToggleParseHomeworks}
                 handleChangeClassName={this.handleChangeClassName}
-                handleChangeClassTime={this.handleChangeClassTime}
                 parseData={this.parseData}
+                handleTimePicked={this.handleTimePicked}
+                hideTimePicker={this.hideTimePicker}
+                showTimePicker={this.showTimePicker}
                 {...this.state}
             />
         )
