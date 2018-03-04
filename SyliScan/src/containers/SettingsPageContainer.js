@@ -2,6 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SettingsPage from '../components/SettingsPage';
 import { addEvent } from '../actions/updateEvents';
+import {
+    containsDate,
+    keyWordAnalysis,
+    isRelevantKeyWord,
+    extractDateFromLine,
+    getKeyWordType
+}
+    from '../utils';
 
 // TODO: toggle between event and reminder?
 // TODO: adjust "level" of parsing
@@ -28,9 +36,52 @@ class SettingsPageContainer extends React.Component {
     handleChangeClassTime = (time) => this.setState({ classTime: time })
 
     parseData = () => {
-        console.log('Parsing data...');
-        const data = this.props.image;
-        console.log(data);
+        const data = this.props.image.text;
+
+        // keep only the lines with months
+        data.filter(line => containsDate(line));
+
+        // send to Microsoft API
+        for (line of data) {
+            // use MS API to find most important key words
+            const keyWords = keyWordAnalysis(data[1]);
+
+            console.log(keyWords);
+
+            // find the relevant key words
+            keyWords.filter(word => isRelevantKeyWord(word));
+
+            console.log(relevantKeyWords);
+
+            // capture the event's date
+            const eventDate = extractDateFromLine(line);
+
+            // set the time to the user entered class time
+            eventDate.setTime(this.state.classTime);
+
+            // set the end
+            const end = Date(eventDate);
+            end.setTime(end.getTime() + 1 * 60 * 60 * 1000);
+
+            // we pick the first accepted keyword
+            const chosenKeyWord = keyWords[0];
+
+            // get the key word 'type' i.e. 'exam', 'homework', 'essay', etc.
+            const eventType = getKeyWordType(chosenKeyWord);
+
+            const event = {
+                title: `${this.state.className} {chosenKeyWod}`,
+                notes: '',
+                startDate: eventDate,
+                endDate: end,
+            }
+
+
+        }
+
+        return;
+
+        // navigate to next page after all is said and done
         this.props.navigation.navigate('EventsPage');
     }
 
