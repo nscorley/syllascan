@@ -9,38 +9,7 @@ const end = new Date();
 end.setTime(end.getTime() + 1 * 60 * 60 * 1000);
 
 // empty array of events
-const initialState = [
-    {
-      id: 0,
-      event: {
-          title: 'Test Event 1',
-          notes: 'Some notes.',
-          startDate: start,
-          endDate: end,
-      },
-      type: 'homework'
-    },
-    {
-        id: 1,
-        event: {
-            title: 'Test Event 2',
-            notes: 'Some notes.',
-            startDate: start,
-            endDate: end,
-        },
-        type: 'performance',
-    },
-    {
-        id: 2,
-        event: {
-            title: 'Test Event 3',
-            notes: 'Some notes.',
-            startDate: start,
-            endDate: end,
-        },
-        type: 'test',
-    }
-];
+const initialState = [];
 
 /**
  * Reducer for the current screen
@@ -51,7 +20,7 @@ const eventReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_EVENT: {
             const e = action.event;
-            console.log(action.event);
+
             // action is of form { type, id, event }
             return [
                 ...state, 

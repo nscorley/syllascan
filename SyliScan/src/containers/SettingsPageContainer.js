@@ -24,9 +24,10 @@ class SettingsPageContainer extends React.Component {
         parseExams: true,
         parsePapers: true,
         parseHomeworks: true,
-        className: '',
+        className: 'Physics',
         classTime: null,
         timePickerVisible: false,
+        loading: false,
     }
 
 
@@ -50,30 +51,30 @@ class SettingsPageContainer extends React.Component {
     }
     
     parseData = async () => {
-        const data = this.props.image.text;
+        this.setState({ loading: true });
+        let data = this.props.image.text;
 
         // keep only the lines with months
-        data.filter(line => containsDate(line));
+        data = data.filter(line => containsDate(line));
 
         // send to Microsoft API
         for (line of data) {
             // use MS API to find most important key words
-             const keyWords = await keyWordAnalysis(data[1]);
+            let keyWords = await keyWordAnalysis(line);
 
-            console.log(keyWords);
+            if(keyWords.length < 1) continue;
+
 
             // find the relevant key words
-            keyWords.filter(word => isRelevantKeyWord(word));
-
-            console.log(keyWords);
+            keyWords = keyWords.filter(word => isRelevantKeyWord(word));
 
             // capture the event's date
             const eventDate = extractDateFromLine(line);
 
-            console.log(eventDate);
-
             // set the time to the user entered class time
-            eventDate.setTime(this.state.classTime);
+            if(this.state.classTime) {
+                eventDate.setTime(this.state.classTime);
+            }
 
             // set the end
             const end = new Date(eventDate.toString());
@@ -86,16 +87,16 @@ class SettingsPageContainer extends React.Component {
             const eventType = getKeyWordType(chosenKeyWord);
 
             const event = {
-                title: `${this.state.className} {chosenKeyWod}`,
+                title: `${this.state.className} ${chosenKeyWord}`,
                 notes: '',
                 startDate: eventDate,
                 endDate: end,
             }
 
-            console.log(event);
-
-            exit();
+            this.addNewEvent(event, eventType);
         }
+
+        await this.setState({ loading: false });
 
         // navigate to next page after all is said and done
         this.props.navigation.navigate('EventsPage');
@@ -108,7 +109,7 @@ class SettingsPageContainer extends React.Component {
             event: newEvent,
             type: newType,
         }
-        this.props.dispatch(addEvent(newEvent, max));
+        this.props.dispatch(addEvent(event, max));
     }
 
     render() {

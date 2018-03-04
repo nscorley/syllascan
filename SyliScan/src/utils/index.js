@@ -3,7 +3,7 @@
  * @param {string} line 
  */
 export const containsDate = (line) => {
-    if (parseDate(string) == 0) {
+    if (extractDateFromLine(line) == 0) {
         return false;
     }
     else {
@@ -60,6 +60,7 @@ export const keyWordAnalysis = async (line) => {
  */
 export const isRelevantKeyWord = (keyWord) => {
     temp = keyWord.match(/(.uiz|.ssignment|.ssay|.aper|test|Test|.idterm|.xam|final|Final|.eadline|due|Due|homework)/i);
+    
     if (temp != null) {
         return true;
     }
@@ -78,7 +79,7 @@ export const getKeyWordType = (keyWord) => {
     if (temp != null) {
         return "Paper";
     }
-    temp = keyWord.match(/test|exam*|midterm|final)/i);
+    temp = keyWord.match(/test|exam*|midterm|final/i);
     if (temp!= null) {
         return "Test";
     }
@@ -99,9 +100,9 @@ export const extractDateFromLine = (line) => {
 
     var date = new Date();
 
-    temp = string.match(/(January|February|March|April|May|June|July|August|September|October|November|December|Jan\.|Feb\.|Mar\.|Apr\.|Aug\.Sept\.Oct\.|Nov\.|Dec\.]) (\d+)/);
+    temp = line.match(/(January|February|March|April|May|June|July|August|September|October|November|December|Jan\.|Feb\.|Mar\.|Apr\.|Aug\.Sept\.Oct\.|Nov\.|Dec\.]) (\d+)/);
     if (temp != null) {
-        local = string.match(/(\d+) (pm|PM|AM|am)/);
+        local = line.match(/(\d+) (pm|PM|AM|am)/);
 
         date.setMonth(months.indexOf(temp[1].substring(0, 3)));
         date.setDate((parseInt(temp[2]) - 1).toString());
@@ -113,7 +114,7 @@ export const extractDateFromLine = (line) => {
     else if (temp == null) {
         return 0; //used by containsDate() to determine which text lines have no dates
     }
-    else if (temp = string.match(/(\d+)\/(\d+)/) != -1) {
+    else if (temp = line.match(/(\d+)\/(\d+)/) != -1) {
         date.setMonth(parseInt(temp[1]) - 1).toString();
         date.setDate(temp[2]);
 

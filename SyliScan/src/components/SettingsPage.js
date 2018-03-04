@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import { common } from '../styles';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import Loader from './Loader';
 
 export default class SettingsPage extends React.Component {
     render() {
@@ -20,10 +21,14 @@ export default class SettingsPage extends React.Component {
             handleTimePicked,
             hideTimePicker,
             showTimePicker,
+            loading,
         } = this.props;
 
         return (
             <View style={common.container}>
+                <Loader
+                    loading={loading}
+                />
                 <DateTimePicker
                     isVisible={timePickerVisible}
                     onConfirm={handleTimePicked}
