@@ -60,7 +60,16 @@ class EventsPageContainer extends React.Component {
 
         // make events
         Calendar.getCalendarsAsync().then((result) => {
-            const calendar = result.filter(c => c.source.name == 'Default');
+
+            console.log(result);
+            let calendar = result.filter(c => c.source.name == 'Default');
+            console.log(calendar)
+            if(calendar.length < 1) {
+                calendar = result.filter(c => c.title == 'School');
+                if (calendar.length < 1) {
+                    calendar = result[0];
+                }
+            } 
 
             // create events with default calendar, or first that shows up if multiple
             this.createEvents(calendar[0]);

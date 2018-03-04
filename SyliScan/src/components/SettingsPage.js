@@ -39,7 +39,6 @@ export default class SettingsPage extends React.Component {
                         value={className}
                         onChangeText={handleChangeClassName}
                         placeholder='Class / Event Name'
-                        placeholderTextColor='blue'
                         containerStyle={styles.inputContainer}
                         inputStyle={styles.input}
                         autoFocus={true}
