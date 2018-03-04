@@ -78,7 +78,7 @@ export const getKeyWordType = (keyWord) => {
     if (temp != null) {
         return "Paper";
     }
-    temp = keyWord.match(/test|exam*|midterm|final/i);
+    temp = keyWord.match(/test|exam*|midterm|final|quiz/i);
     if (temp != null) {
         return "Test";
     }

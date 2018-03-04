@@ -46,7 +46,7 @@ export default class SettingsPage extends React.Component {
                         autoCorrect={false}
                     />
                 </View>
-                <Divider style={{ height: 20 }} />
+                <Divider style={{ height: 25 }} />
                 <View>
                     <View style={styles.toggleContainer}>
                         <Icon
@@ -76,7 +76,7 @@ export default class SettingsPage extends React.Component {
                             onTintColor='#2196F3'
                         />
                     </View>
-                    <Divider style={{ height: 20, backgroundColor: 'transparent' }} />
+                    <Divider style={{ height: 25, backgroundColor: 'transparent' }} />
                     <View style={styles.toggleContainer}>
                         <Icon
                             name="pencil"
