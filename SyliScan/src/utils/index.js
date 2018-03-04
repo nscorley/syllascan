@@ -59,7 +59,13 @@ export const keyWordAnalysis = async (line) => {
  * @param {string} keyWord
  */
 export const isRelevantKeyWord = (keyWord) => {
-
+    temp = keyWord.match(/(uiz|.ssignment|.ssay|test|Test|.idterm|.xam|final|Final|.eadline|due|Due)/);
+    if (temp != null) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 
