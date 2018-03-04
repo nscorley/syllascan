@@ -14,7 +14,7 @@ export const common = {
         color: 'white'
     },
     button: {
-        borderRadius: 5,
+        borderRadius: 8,
         padding: 10,
         backgroundColor: DARK_BLUE,
     },

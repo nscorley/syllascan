@@ -17,6 +17,9 @@ import {
 // TODO: maybe reminder options?
 
 class SettingsPageContainer extends React.Component {
+    static navigationOptions = {
+        title: 'SETTINGS',
+    };
     state = {
         parseExams: true,
         parsePapers: true,
@@ -88,6 +91,10 @@ class SettingsPageContainer extends React.Component {
                 startDate: eventDate,
                 endDate: end,
             }
+
+            console.log(event);
+
+            exit();
         }
 
         // navigate to next page after all is said and done

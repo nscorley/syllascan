@@ -7,7 +7,7 @@ import UploadPage from '../components/UploadPage';
 class UploadPageContainer extends React.Component {
     // page title
     static navigationOptions = {
-        title: 'Upload',
+        title: 'UPLOAD',
     };
 
     // default state - for semantic purposes
