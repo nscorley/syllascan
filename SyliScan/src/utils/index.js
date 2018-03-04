@@ -59,7 +59,6 @@ export const keyWordAnalysis = async (line) => {
  * @param {string} keyWord
  */
 export const isRelevantKeyWord = (keyWord) => {
-
 }
 
 

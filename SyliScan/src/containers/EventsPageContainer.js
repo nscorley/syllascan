@@ -7,7 +7,7 @@ import { updateEvent, addEvent, removeEvent } from '../actions/updateEvents';
 class EventsPageContainer extends React.Component {
     // page title
     static navigationOptions = {
-        title: 'Events',
+        title: 'EVENTS',
     };
 
     state = {
