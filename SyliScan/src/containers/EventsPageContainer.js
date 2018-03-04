@@ -74,9 +74,9 @@ class EventsPageContainer extends React.Component {
 
             const event = e.event;
             
-            // await Calendar.createEventAsync(calendar.id, {...event, allDay: true}).then((id) => {
-            //     console.log("Created Event. Event ID: " + id);
-            // })
+            await Calendar.createEventAsync(calendar.id, {...event, allDay: true}).then((id) => {
+                console.log("Created Event. Event ID: " + id);
+            })
         }
 
         this.setState({ loading: false });
