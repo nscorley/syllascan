@@ -106,7 +106,7 @@ export const extractDateFromLine = (line) => {
 		local = string.match(/(\d+) (pm|PM|AM|am)/);
 
         date.setMonth(months.indexOf(temp[1].substring(0, 3)));
-		date.setDate((parseInt(temp[2])-1).toString());
+		date.setDate((parseInt(temp[2]).toString()));
 		if (local != null) {
 			date.setHour
 		}
@@ -116,8 +116,8 @@ export const extractDateFromLine = (line) => {
         return 0; //used by containsDate() to determine which text lines have no dates
     }
     else if (temp = string.match(/(\d+)\/(\d+)/) != -1) {
-		date.setMonth(parseInt(temp[1])-1).toString();
-		date.setDate(temp[2]);
+		date.setMonth(((parseInt(temp[1])-1).toString()));
+		date.setDate((parseInt(temp[2]).toString()));
 
 	}
 	return date;
