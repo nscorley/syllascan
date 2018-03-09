@@ -1,4 +1,4 @@
-# HackAmherst: Syliscan
+# HackAmherst: Syllascan
 Repository for HackAmherst 2018 project.
 
 ### Getting Started
